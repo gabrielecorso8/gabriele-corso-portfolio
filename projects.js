@@ -19,7 +19,7 @@ sections:[
 ["Il lavoro di progettazione","Organizzare temi e collegamenti, rendere leggibile il percorso e permettere di passare da una prima scoperta a una fonte o a una spiegazione più ampia. I diversi strumenti vengono proposti come modalità complementari di approfondimento."],
 ["Competenze messe in gioco","Architettura dell’informazione, progettazione di percorsi didattici, meccaniche di apprendimento attraverso il gioco, interazione web e uso ragionato degli strumenti generativi."],
 ["Cosa racconta dell’approccio","Un interesse umanistico può diventare un’esperienza digitale. La tecnologia viene scelta anche in funzione di come le persone si incuriosiscono, collegano idee e continuano a imparare."]
-],links:[]
+],links:[{label:"Visita Atlante del Tempo",url:"https://atlante-del-tempo.gabrielecorso.chatgpt.site"}]
 },
 {
 id:"giro",title:"Giro",mark:"G",icon:"assets/giro-icon.png",color:"#b0dbff",category:"Logistica · itinerari · organizzazione settimanale",
