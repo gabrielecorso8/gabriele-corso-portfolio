@@ -23,15 +23,21 @@ document.querySelectorAll('a[href^="#progetto/"]').forEach(a=>a.addEventListener
 function route(){if(location.hash.startsWith("#progetto/"))openProject(location.hash.slice(10));else if(dialog.open)closeProject();}
 addEventListener("hashchange",route);route();}
 
-const email=String(config.email||"").trim(),phone=String(config.whatsapp||"").replace(/\D/g,"");
+const email=String(config.email||"").trim(),phone=String(config.phone||"").replace(/\D/g,""),whatsapp=String(config.whatsapp||"").replace(/\D/g,"");
 document.querySelectorAll(".contact-email").forEach(a=>{if(email)a.href="mailto:"+email;else{a.setAttribute("aria-disabled","true");a.removeAttribute("href");a.textContent="Email · in aggiornamento";}});
-document.querySelectorAll(".contact-wa").forEach(a=>{if(phone){a.href="https://wa.me/"+phone;a.target="_blank";a.rel="noopener";}else{a.setAttribute("aria-disabled","true");a.removeAttribute("href");a.textContent="WhatsApp · in aggiornamento";}});
-const status=document.getElementById("contact-status");if(status&&!email&&!phone)status.textContent="Recapiti in aggiornamento. Il profilo GitHub è disponibile in fondo alla pagina.";
+document.querySelectorAll(".contact-wa").forEach(a=>{if(whatsapp){a.href="https://wa.me/"+whatsapp;a.target="_blank";a.rel="noopener";}else{a.setAttribute("aria-disabled","true");a.removeAttribute("href");a.textContent="WhatsApp · in aggiornamento";}});
+document.querySelectorAll(".contact-phone").forEach(a=>{if(phone)a.href="tel:+39"+phone;else{a.setAttribute("aria-disabled","true");a.removeAttribute("href");}});
+const status=document.getElementById("contact-status");if(status&&!email&&!whatsapp)status.textContent="Recapiti in aggiornamento. Il profilo GitHub è disponibile in fondo alla pagina.";
 function message(){const name=document.getElementById("sender").value.trim();const problem=document.getElementById("problem").value.trim();return "Buongiorno Gabriele,"+(name?" sono "+name+".": "")+"\n\n"+(problem||"Vorrei confrontarmi su una possibile collaborazione.")+"\n\nMessaggio dal portfolio.";}
-function contact(channel){const output=document.getElementById("form-status");if(channel==="email"&&!email||channel==="wa"&&!phone){output.textContent="Questo recapito è in aggiornamento.";return;}const text=encodeURIComponent(message());if(channel==="email")location.href="mailto:"+email+"?subject="+encodeURIComponent("Un’idea da discutere")+"&body="+text;else window.open("https://wa.me/"+phone+"?text="+text,"_blank","noopener");output.textContent="Il messaggio è pronto nell’app scelta. L’invio resta a tua scelta.";}
+function contact(channel){const output=document.getElementById("form-status");if(channel==="email"&&!email||channel==="wa"&&!whatsapp){output.textContent="Questo recapito è in aggiornamento.";return;}const text=encodeURIComponent(message());if(channel==="email")location.href="mailto:"+email+"?subject="+encodeURIComponent("Un’idea da discutere")+"&body="+text;else window.open("https://wa.me/"+whatsapp+"?text="+text,"_blank","noopener");output.textContent="Il messaggio è pronto nell’app scelta. L’invio resta a tua scelta.";}
 document.getElementById("contact-form")?.addEventListener("submit",e=>{e.preventDefault();contact("email");});document.getElementById("compose-wa")?.addEventListener("click",()=>contact("wa"));
 const emailButton=document.querySelector('#contact-form button[type="submit"]');if(emailButton)emailButton.disabled=!email;
-const waButton=document.getElementById("compose-wa");if(waButton)waButton.disabled=!phone;
+const waButton=document.getElementById("compose-wa");if(waButton)waButton.disabled=!whatsapp;
+
+const quickQr=document.getElementById("quick-qr-dialog"),quickQrButton=document.getElementById("quick-qr"),quickQrBox=document.getElementById("quick-qr-box");
+function closeQuickQr(){if(quickQr?.open)quickQr.close();}
+function openQuickQr(e){e?.preventDefault();if(!quickQr||!quickQrBox||typeof qrcode!=="function")return;const url=config.publicUrl||new URL("./",location.href).href;const qr=qrcode(0,"M");qr.addData(url);qr.make();quickQrBox.innerHTML=qr.createSvgTag({cellSize:8,margin:28,scalable:true});quickQrBox.querySelector("svg")?.setAttribute("aria-label","Codice QR per aprire il portfolio di Gabriele Corso");quickQr.showModal();}
+quickQrButton?.addEventListener("click",openQuickQr);document.getElementById("close-quick-qr")?.addEventListener("click",closeQuickQr);quickQr?.addEventListener("click",e=>{if(e.target===quickQr)closeQuickQr();});
 
 const canvas=document.getElementById("field");if(!canvas)return;const ctx=canvas.getContext("2d");let w=0,h=0,time=0,last=0,visible=true;
 new ResizeObserver(()=>{const rect=canvas.getBoundingClientRect();w=rect.width;h=rect.height;const d=Math.min(devicePixelRatio||1,2);canvas.width=w*d;canvas.height=h*d;ctx.setTransform(d,0,0,d,0,0);draw();}).observe(canvas);
