@@ -39,10 +39,11 @@ function closeQuickQr(){if(quickQr?.open)quickQr.close();}
 function openQuickQr(e){e?.preventDefault();if(!quickQr||!quickQrBox||typeof qrcode!=="function")return;const url=config.publicUrl||new URL("./",location.href).href;const qr=qrcode(0,"M");qr.addData(url);qr.make();quickQrBox.innerHTML=qr.createSvgTag({cellSize:8,margin:28,scalable:true});quickQrBox.querySelector("svg")?.setAttribute("aria-label","Codice QR per aprire il portfolio di Gabriele Corso");quickQr.showModal();}
 quickQrButton?.addEventListener("click",openQuickQr);document.getElementById("close-quick-qr")?.addEventListener("click",closeQuickQr);quickQr?.addEventListener("click",e=>{if(e.target===quickQr)closeQuickQr();});
 
-const canvas=document.getElementById("field");if(!canvas)return;const ctx=canvas.getContext("2d");let w=0,h=0,time=0,last=0,visible=true;
-new ResizeObserver(()=>{const rect=canvas.getBoundingClientRect();w=rect.width;h=rect.height;const d=Math.min(devicePixelRatio||1,2);canvas.width=w*d;canvas.height=h*d;ctx.setTransform(d,0,0,d,0,0);draw();}).observe(canvas);
+const canvas=document.getElementById("field");if(!canvas)return;const ctx=canvas.getContext("2d");const orbitalIcons=[...document.querySelectorAll(".satellite")];let w=0,h=0,time=0,last=0,visible=true;
+function positionOrbitIcons(){if(!w||!h)return;const cx=w/2,cy=h/2,r=Math.min(w,h)*.3,rx=r*1.2,ry=r;orbitalIcons.forEach((icon,index)=>{const a=time*.25+index*Math.PI*2/orbitalIcons.length-Math.PI/2;icon.style.left=`${cx+Math.cos(a)*rx}px`;icon.style.top=`${cy+Math.sin(a)*ry}px`;icon.style.right="auto";icon.style.bottom="auto";icon.style.transform="translate(-50%,-50%)";});}
+new ResizeObserver(()=>{const rect=canvas.getBoundingClientRect();w=rect.width;h=rect.height;const d=Math.min(devicePixelRatio||1,2);canvas.width=w*d;canvas.height=h*d;ctx.setTransform(d,0,0,d,0,0);draw();positionOrbitIcons();}).observe(canvas);
 new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;}).observe(canvas);
 function draw(){ctx.clearRect(0,0,w,h);const cx=w/2,cy=h/2;for(let j=0;j<9;j++){ctx.beginPath();for(let i=0;i<=160;i++){const a=i/160*Math.PI*2;const wave=Math.sin(a*3+time+j*.24)*9;const r=Math.min(w,h)*(.22+j*.012)+wave;const x=cx+Math.cos(a)*r*1.22,y=cy+Math.sin(a)*r; i?ctx.lineTo(x,y):ctx.moveTo(x,y);}ctx.closePath();ctx.strokeStyle=j===4?"#d6f29480":"#b5c4ba24";ctx.lineWidth=1;ctx.stroke();}
-for(let j=0;j<5;j++){const a=time*.25+j*Math.PI*2/5;const r=Math.min(w,h)*.3;ctx.beginPath();ctx.arc(cx+Math.cos(a)*r*1.2,cy+Math.sin(a)*r,2.5,0,Math.PI*2);ctx.fillStyle="#d6f294";ctx.fill();}}
-function tick(now){if(now-last>32){if(!paused&&visible&&!document.hidden){time+=.012;draw();}last=now;}requestAnimationFrame(tick);}requestAnimationFrame(tick);
+for(let j=0;j<orbitalIcons.length;j++){const a=time*.25+j*Math.PI*2/orbitalIcons.length;const r=Math.min(w,h)*.3;ctx.beginPath();ctx.arc(cx+Math.cos(a)*r*1.2,cy+Math.sin(a)*r,2.5,0,Math.PI*2);ctx.fillStyle="#d6f294";ctx.fill();}}
+function tick(now){if(now-last>32){if(!paused&&!document.hidden){time+=.012;if(visible)draw();positionOrbitIcons();}last=now;}requestAnimationFrame(tick);}requestAnimationFrame(tick);
 })();
