@@ -44,7 +44,7 @@ sections:[
 ],links:[]
 },
 {
-id:"bacchetta",title:"Bacchetta",mark:"B",color:"#f4d88d",category:"Interazione fisica · sensori · videogiochi",
+id:"bacchetta",title:"Hogwarts Legacy Wand",mark:"W",color:"#f4d88d",category:"Interazione fisica · sensori · videogiochi",
 intro:"Trasformare il telefono in una bacchetta magica collegata a Hogwarts Legacy.",
 sections:[
 ["L’idea","Portare il gesto dentro il gioco utilizzando un oggetto già disponibile: lo smartphone. La curiosità ludica diventa un problema tecnico di movimento, calibrazione e comunicazione tra dispositivi."],
