@@ -8,7 +8,7 @@ sections:[
 ["Dalla riflessione alla pratica","Da oltre un anno il testo viene usato anche come prompt di contesto: aiuta a comunicare all’agente l’orientamento sociale e filosofico da cui parte il lavoro. È una pratica personale di contestualizzazione, senza presumere che il modello condivida o comprenda una visione come farebbe una persona."],
 ["Competenze messe in gioco","Sintesi e scrittura, formulazione delle domande, progettazione del contesto e valutazione critica delle risposte. La formazione filosofica diventa parte del modo di usare gli strumenti."],
 ["Cosa racconta dell’approccio","Prima dell’esecuzione viene l’intenzione. Rendere esplicito il perché di un progetto aiuta a valutarne le alternative e a mantenere il giudizio umano dentro il processo."]
-],links:[{label:"Scarica il saggio · PDF",url:"assets/h-ai%20gabriele-corso.pdf",download:true}]
+],links:[{label:"Copertina H-AI",url:"assets/h-ai%20gabriele-corso.pdf",cover:true}]
 },
 {
 id:"atlante",title:"Atlante del Tempo",mark:"A",icon:"assets/atlante-icon.png",color:"#f4b5a0",category:"Divulgazione · cultura · apprendimento interattivo",
