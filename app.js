@@ -24,12 +24,14 @@ function route(){if(location.hash.startsWith("#progetto/"))openProject(location.
 addEventListener("hashchange",route);route();}
 
 const email=String(config.email||"").trim(),phone=String(config.whatsapp||"").replace(/\D/g,"");
-document.querySelectorAll(".contact-email").forEach(a=>{if(email)a.href="mailto:"+email;else a.setAttribute("aria-disabled","true");});
-document.querySelectorAll(".contact-wa").forEach(a=>{if(phone){a.href="https://wa.me/"+phone;a.target="_blank";a.rel="noopener";}else a.setAttribute("aria-disabled","true");});
+document.querySelectorAll(".contact-email").forEach(a=>{if(email)a.href="mailto:"+email;else{a.setAttribute("aria-disabled","true");a.removeAttribute("href");a.textContent="Email · in aggiornamento";}});
+document.querySelectorAll(".contact-wa").forEach(a=>{if(phone){a.href="https://wa.me/"+phone;a.target="_blank";a.rel="noopener";}else{a.setAttribute("aria-disabled","true");a.removeAttribute("href");a.textContent="WhatsApp · in aggiornamento";}});
 const status=document.getElementById("contact-status");if(status&&!email&&!phone)status.textContent="Recapiti in aggiornamento. Il profilo GitHub è disponibile in fondo alla pagina.";
 function message(){const name=document.getElementById("sender").value.trim();const problem=document.getElementById("problem").value.trim();return "Buongiorno Gabriele,"+(name?" sono "+name+".": "")+"\n\n"+(problem||"Vorrei confrontarmi su una possibile collaborazione.")+"\n\nMessaggio dal portfolio.";}
 function contact(channel){const output=document.getElementById("form-status");if(channel==="email"&&!email||channel==="wa"&&!phone){output.textContent="Questo recapito è in aggiornamento.";return;}const text=encodeURIComponent(message());if(channel==="email")location.href="mailto:"+email+"?subject="+encodeURIComponent("Un’idea da discutere")+"&body="+text;else window.open("https://wa.me/"+phone+"?text="+text,"_blank","noopener");output.textContent="Il messaggio è pronto nell’app scelta. L’invio resta a tua scelta.";}
 document.getElementById("contact-form")?.addEventListener("submit",e=>{e.preventDefault();contact("email");});document.getElementById("compose-wa")?.addEventListener("click",()=>contact("wa"));
+const emailButton=document.querySelector('#contact-form button[type="submit"]');if(emailButton)emailButton.disabled=!email;
+const waButton=document.getElementById("compose-wa");if(waButton)waButton.disabled=!phone;
 
 const canvas=document.getElementById("field");if(!canvas)return;const ctx=canvas.getContext("2d");let w=0,h=0,time=0,last=0,visible=true;
 new ResizeObserver(()=>{const rect=canvas.getBoundingClientRect();w=rect.width;h=rect.height;const d=Math.min(devicePixelRatio||1,2);canvas.width=w*d;canvas.height=h*d;ctx.setTransform(d,0,0,d,0,0);draw();}).observe(canvas);
@@ -38,4 +40,3 @@ function draw(){ctx.clearRect(0,0,w,h);const cx=w/2,cy=h/2;for(let j=0;j<9;j++){
 for(let j=0;j<5;j++){const a=time*.25+j*Math.PI*2/5;const r=Math.min(w,h)*.3;ctx.beginPath();ctx.arc(cx+Math.cos(a)*r*1.2,cy+Math.sin(a)*r,2.5,0,Math.PI*2);ctx.fillStyle="#d6f294";ctx.fill();}}
 function tick(now){if(now-last>32){if(!paused&&visible&&!document.hidden){time+=.012;draw();}last=now;}requestAnimationFrame(tick);}requestAnimationFrame(tick);
 })();
-
