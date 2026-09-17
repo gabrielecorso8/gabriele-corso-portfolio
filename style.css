@@ -58,3 +58,8 @@ html,body{overflow-x:clip}
 .section-disclosure>summary{position:relative;cursor:pointer;list-style:none;padding-right:42px}.section-disclosure>summary::-webkit-details-marker{display:none}.section-disclosure>summary::after{content:"+";position:absolute;right:2px;top:0;color:var(--lime);font-size:30px;font-weight:300;line-height:1}.section-disclosure[open]>summary::after{content:"-"}.section-disclosure-body{margin-top:44px}.essay-disclosure .essay-summary{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:start;gap:30px}.essay-summary .disclosure-hint{padding-top:3px;color:var(--muted);font-size:12px;white-space:nowrap}.essay-disclosure .essay-content{margin-top:44px}
 .section-disclosure .section-heading{margin-bottom:0}
 @media(max-width:700px){.header .brand{font-size:17px}.header .brand small{font-size:10px;margin-top:4px}.header nav{font-size:14px}.section-heading{padding-right:36px}.section-disclosure-body{margin-top:30px}.essay-disclosure .essay-summary{display:block}.essay-summary .disclosure-hint{display:block;margin-top:18px}.essay-disclosure .essay-content{margin-top:30px}}
+
+/* H-AI: la copertina occupa una riga propria ed è centrata nella sezione. */
+.essay-disclosure .essay-content{grid-template-columns:1fr}
+.essay-disclosure .essay-copy{max-width:780px}
+.essay-disclosure .essay-cover-action{justify-self:center;width:min(320px,100%)}
