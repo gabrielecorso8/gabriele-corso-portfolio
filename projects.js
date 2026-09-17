@@ -1,6 +1,6 @@
 window.PROJECTS = [
 {
-id:"h-ai",title:"H-AI",mark:"H",color:"#dbebad",category:"Saggio · pensiero critico · contesto per gli agenti",
+id:"h-ai",title:"H-AI",mark:"H",icon:"assets/hai-icon.png",color:"#dbebad",category:"Saggio · pensiero critico · contesto per gli agenti",
 intro:"Human Actions with Artificial Intelligence. Un testo da leggere e una prospettiva da portare nel lavoro con l’AI.",
 sections:[
 ["Il punto di partenza","Uno strumento può eseguire una richiesta senza conoscere la prospettiva di chi la formula. H-AI esplicita quel contesto: azione umana, accesso alla conoscenza, responsabilità e rapporto tra tecnologia e società."],
@@ -8,10 +8,10 @@ sections:[
 ["Dalla riflessione alla pratica","Da oltre un anno il testo viene usato anche come prompt di contesto: aiuta a comunicare all’agente l’orientamento sociale e filosofico da cui parte il lavoro. È una pratica personale di contestualizzazione, senza presumere che il modello condivida o comprenda una visione come farebbe una persona."],
 ["Competenze messe in gioco","Sintesi e scrittura, formulazione delle domande, progettazione del contesto e valutazione critica delle risposte. La formazione filosofica diventa parte del modo di usare gli strumenti."],
 ["Cosa racconta dell’approccio","Prima dell’esecuzione viene l’intenzione. Rendere esplicito il perché di un progetto aiuta a valutarne le alternative e a mantenere il giudizio umano dentro il processo."]
-],links:[{label:"Scarica il saggio · PDF",url:"assets/h-ai-gabriele-corso.pdf",download:true}]
+],links:[{label:"Scarica il saggio · PDF",url:"assets/h-ai%20gabriele-corso.pdf",download:true}]
 },
 {
-id:"atlante",title:"Atlante del Tempo",mark:"A",color:"#f4b5a0",category:"Divulgazione · cultura · apprendimento interattivo",
+id:"atlante",title:"Atlante del Tempo",mark:"A",icon:"assets/atlante-icon.png",color:"#f4b5a0",category:"Divulgazione · cultura · apprendimento interattivo",
 intro:"Esplorare la conoscenza da più punti di vista, oltre una narrazione centrata soltanto sull’Europa.",
 sections:[
 ["L’esigenza","La cultura generale viene spesso organizzata in compartimenti separati e raccontata da un unico centro geografico. Atlante del Tempo propone percorsi attraverso aree tematiche e prospettive diverse, con spazio per connessioni e approfondimenti."],
@@ -22,7 +22,7 @@ sections:[
 ],links:[]
 },
 {
-id:"giro",title:"Giro",mark:"G",color:"#b0dbff",category:"Logistica · itinerari · organizzazione settimanale",
+id:"giro",title:"Giro",mark:"G",icon:"assets/giro-icon.png",color:"#b0dbff",category:"Logistica · itinerari · organizzazione settimanale",
 intro:"Una lista di clienti diventa un piano di lavoro, con itinerari calcolati anche sulle dimensioni del veicolo.",
 sections:[
 ["Il problema","Centinaia di clienti da raggiungere in camion e una pianificazione affidata all’abitudine: prima A, poi B, poi C, anche nella stessa zona, senza un criterio condiviso. Una lista sempre più lunga da trasformare ogni settimana in decisioni pratiche."],
@@ -33,7 +33,7 @@ sections:[
 ],links:[]
 },
 {
-id:"touchdesigner",title:"Agentic TouchDesigner",mark:"T",color:"#c8baff",category:"MCP · skill personalizzate · produzione audiovisiva",
+id:"touchdesigner",title:"Agentic TouchDesigner",mark:"T",icon:"assets/touchdesigner-icon.png",color:"#c8baff",category:"MCP · skill personalizzate · produzione audiovisiva",
 intro:"Un ambiente agentico costruito intorno al modo di lavorare di un professionista.",
 sections:[
 ["Il problema","Claude veniva usato come chatbot per ricevere indicazioni su TouchDesigner. Tra il consiglio e l’esecuzione restava il lavoro manuale di tradurre le risposte nel programma e adattarle a un processo professionale già esistente."],
@@ -44,7 +44,7 @@ sections:[
 ],links:[]
 },
 {
-id:"bacchetta",title:"Hogwarts Legacy Wand",mark:"W",color:"#f4d88d",category:"Interazione fisica · sensori · videogiochi",
+id:"bacchetta",title:"Hogwarts Legacy Wand",mark:"W",icon:"assets/hogwarts-legacy-wand-icon.png",color:"#f4d88d",category:"Interazione fisica · sensori · videogiochi",
 intro:"Trasformare il telefono in una bacchetta magica collegata a Hogwarts Legacy.",
 sections:[
 ["L’idea","Portare il gesto dentro il gioco utilizzando un oggetto già disponibile: lo smartphone. La curiosità ludica diventa un problema tecnico di movimento, calibrazione e comunicazione tra dispositivi."],
@@ -53,10 +53,10 @@ sections:[
 ["Competenze messe in gioco","JavaScript e interfacce mobili, sensori di movimento, calibrazione, Python per il server locale, comunicazione telefono–PC e integrazione con un controller virtuale."],
 ["Cosa racconta dell’approccio","Anche il gioco è un luogo di ricerca: un’intuizione personale può richiedere di attraversare interfacce, hardware e software per costruire un’esperienza diversa."],
 ["Contesto","Progetto indipendente, non affiliato ai titolari di Hogwarts Legacy. Il collegamento richiede il gioco già installato e la configurazione del ponte locale."]
-],links:[{label:"Repository pubblico ↗",url:"https://github.com/gabrielecorso8/bacchetta-pubblica"}]
+],links:[{label:"Repository pubblico",url:"https://github.com/gabrielecorso8/bacchetta-pubblica"}]
 },
 {
-id:"logic",title:"Logic / Analytics Hub",mark:"L",color:"#91dcc4",category:"Analisi aziendale · gestione · pianificazione",
+id:"logic",title:"Logic / Analytics Hub",mark:"L",icon:"assets/logic-icon.png",color:"#91dcc4",category:"Analisi aziendale · gestione · pianificazione",
 intro:"Una soluzione interna e proprietaria per leggere l’azienda e organizzare il lavoro.",
 sections:[
 ["Il problema","Un’azienda veneta disponeva di molti dati archiviati, ma faticava a ricavarne una lettura utile. Riunioni e pianificazione strategica richiedevano di ricostruire il quadro, con difficoltà nel collegare l’andamento generale alle attività dei singoli settori."],
