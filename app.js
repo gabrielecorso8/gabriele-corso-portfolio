@@ -1,0 +1,41 @@
+(() => {
+"use strict";
+const config=window.PORTFOLIO_CONFIG||{}, projects=window.PROJECTS||[];
+const reduced=matchMedia("(prefers-reduced-motion: reduce)");
+let paused=reduced.matches;
+const motion=document.getElementById("motion-toggle");
+function setMotion(value){paused=value;document.documentElement.classList.toggle("motion-paused",paused);if(motion){motion.textContent=paused?"Attiva movimento":"Pausa movimento";motion.setAttribute("aria-pressed",String(paused));}}
+setMotion(paused);motion?.addEventListener("click",()=>setMotion(!paused));reduced.addEventListener("change",e=>setMotion(e.matches));
+
+const dialog=document.getElementById("project-dialog");let current=0,opener=null;
+function openProject(id){const i=projects.findIndex(p=>p.id===id);if(i<0)return;current=i;const p=projects[i];opener=document.activeElement;
+dialog.style.setProperty("--project-color",p.color);document.getElementById("project-title").textContent=p.title;document.getElementById("project-category").textContent=p.category;document.getElementById("project-monogram").textContent=p.mark;document.getElementById("project-intro").textContent=p.intro;
+const detail=document.getElementById("project-detail");detail.replaceChildren();
+p.sections.forEach(([heading,copy])=>{const section=document.createElement("section");section.className="detail-block";const h=document.createElement("h3");h.textContent=heading;const text=document.createElement("p");text.textContent=copy;section.append(h,text);detail.append(section);});
+const links=document.getElementById("project-links");links.replaceChildren();p.links.forEach(item=>{const a=document.createElement("a");a.className="button primary";a.href=item.url;a.textContent=item.label;if(item.download)a.download="H-AI-Gabriele-Corso.pdf";else{a.target="_blank";a.rel="noopener";}links.append(a);});
+if(!dialog.open)dialog.showModal();document.body.classList.add("dialog-open");dialog.scrollTop=0;
+}
+function closeProject(){if(dialog.open)dialog.close();document.body.classList.remove("dialog-open");if(location.hash.startsWith("#progetto/"))history.replaceState(null,"",location.pathname+location.search+"#progetti");opener?.focus?.({preventScroll:true});}
+if(dialog){document.getElementById("close-project").addEventListener("click",closeProject);dialog.addEventListener("cancel",e=>{e.preventDefault();closeProject();});dialog.addEventListener("click",e=>{if(e.target===dialog){const b=dialog.getBoundingClientRect();if(e.clientX<b.left||e.clientX>b.right||e.clientY<b.top||e.clientY>b.bottom)closeProject();}});
+document.getElementById("next-project").addEventListener("click",()=>{location.hash="progetto/"+projects[(current+1)%projects.length].id;});
+document.getElementById("project-contact").addEventListener("click",()=>{closeProject();});
+document.querySelectorAll('a[href^="#progetto/"]').forEach(a=>a.addEventListener("click",()=>{if(location.hash===a.hash)openProject(a.hash.slice(10));}));
+function route(){if(location.hash.startsWith("#progetto/"))openProject(location.hash.slice(10));else if(dialog.open)closeProject();}
+addEventListener("hashchange",route);route();}
+
+const email=String(config.email||"").trim(),phone=String(config.whatsapp||"").replace(/\D/g,"");
+document.querySelectorAll(".contact-email").forEach(a=>{if(email)a.href="mailto:"+email;else a.setAttribute("aria-disabled","true");});
+document.querySelectorAll(".contact-wa").forEach(a=>{if(phone){a.href="https://wa.me/"+phone;a.target="_blank";a.rel="noopener";}else a.setAttribute("aria-disabled","true");});
+const status=document.getElementById("contact-status");if(status&&!email&&!phone)status.textContent="Recapiti in aggiornamento. Il profilo GitHub è disponibile in fondo alla pagina.";
+function message(){const name=document.getElementById("sender").value.trim();const problem=document.getElementById("problem").value.trim();return "Buongiorno Gabriele,"+(name?" sono "+name+".": "")+"\n\n"+(problem||"Vorrei confrontarmi su una possibile collaborazione.")+"\n\nMessaggio dal portfolio.";}
+function contact(channel){const output=document.getElementById("form-status");if(channel==="email"&&!email||channel==="wa"&&!phone){output.textContent="Questo recapito è in aggiornamento.";return;}const text=encodeURIComponent(message());if(channel==="email")location.href="mailto:"+email+"?subject="+encodeURIComponent("Un’idea da discutere")+"&body="+text;else window.open("https://wa.me/"+phone+"?text="+text,"_blank","noopener");output.textContent="Il messaggio è pronto nell’app scelta. L’invio resta a tua scelta.";}
+document.getElementById("contact-form")?.addEventListener("submit",e=>{e.preventDefault();contact("email");});document.getElementById("compose-wa")?.addEventListener("click",()=>contact("wa"));
+
+const canvas=document.getElementById("field");if(!canvas)return;const ctx=canvas.getContext("2d");let w=0,h=0,time=0,last=0,visible=true;
+new ResizeObserver(()=>{const rect=canvas.getBoundingClientRect();w=rect.width;h=rect.height;const d=Math.min(devicePixelRatio||1,2);canvas.width=w*d;canvas.height=h*d;ctx.setTransform(d,0,0,d,0,0);draw();}).observe(canvas);
+new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;}).observe(canvas);
+function draw(){ctx.clearRect(0,0,w,h);const cx=w/2,cy=h/2;for(let j=0;j<9;j++){ctx.beginPath();for(let i=0;i<=160;i++){const a=i/160*Math.PI*2;const wave=Math.sin(a*3+time+j*.24)*9;const r=Math.min(w,h)*(.22+j*.012)+wave;const x=cx+Math.cos(a)*r*1.22,y=cy+Math.sin(a)*r; i?ctx.lineTo(x,y):ctx.moveTo(x,y);}ctx.closePath();ctx.strokeStyle=j===4?"#d6f29480":"#b5c4ba24";ctx.lineWidth=1;ctx.stroke();}
+for(let j=0;j<5;j++){const a=time*.25+j*Math.PI*2/5;const r=Math.min(w,h)*.3;ctx.beginPath();ctx.arc(cx+Math.cos(a)*r*1.2,cy+Math.sin(a)*r,2.5,0,Math.PI*2);ctx.fillStyle="#d6f294";ctx.fill();}}
+function tick(now){if(now-last>32){if(!paused&&visible&&!document.hidden){time+=.012;draw();}last=now;}requestAnimationFrame(tick);}requestAnimationFrame(tick);
+})();
+

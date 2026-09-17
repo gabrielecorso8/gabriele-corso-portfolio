@@ -1,0 +1,16 @@
+(() => {
+"use strict";
+const c=window.PORTFOLIO_CONFIG||{},input=document.getElementById("portfolio-url"),box=document.getElementById("qr-box"),status=document.getElementById("qr-status");
+let current="",svg="";
+const originDefault=/^https?:$/.test(location.protocol)&&!["localhost","127.0.0.1"].includes(location.hostname)?new URL("./",location.href).href:"";
+input.value=c.publicUrl||originDefault;
+function generate(){try{const url=new URL(input.value.trim());if(!["https:","http:"].includes(url.protocol)||url.hostname==="localhost"||url.hostname==="127.0.0.1")throw Error("Inserisci un indirizzo web pubblico valido.");const qr=qrcode(0,"M");qr.addData(url.href);qr.make();svg=qr.createSvgTag({cellSize:8,margin:32,scalable:true});box.innerHTML=svg;box.querySelector("svg").setAttribute("role","img");box.querySelector("svg").setAttribute("aria-label","Codice QR per aprire il portfolio di Gabriele Corso");current=url.href;document.getElementById("card-url").textContent=current;status.textContent="QR pronto: collegato al portfolio.";document.getElementById("download-svg").disabled=false;document.getElementById("download-png").disabled=false;}catch(e){status.textContent=e.message||"Impossibile generare il codice. Controlla l’indirizzo.";}}
+function save(blob,name){const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),3000);}
+document.getElementById("generate-qr").onclick=generate;document.getElementById("download-svg").disabled=true;document.getElementById("download-png").disabled=true;
+document.getElementById("download-svg").onclick=()=>{if(svg)save(new Blob([svg],{type:"image/svg+xml"}),"gabriele-corso-qr.svg");};
+document.getElementById("download-png").onclick=()=>{if(!svg)return;const img=new Image(),u=URL.createObjectURL(new Blob([svg],{type:"image/svg+xml"}));img.onload=()=>{const canvas=document.createElement("canvas");canvas.width=canvas.height=1200;const ctx=canvas.getContext("2d");ctx.fillStyle="#fff";ctx.fillRect(0,0,1200,1200);ctx.drawImage(img,0,0,1200,1200);URL.revokeObjectURL(u);canvas.toBlob(b=>{if(b)save(b,"gabriele-corso-qr.png");});};img.src=u;};
+document.getElementById("share-card").onclick=async()=>{const url=c.publicUrl?new URL("biglietto.html",c.publicUrl).href:location.href;if(!/^https?:/.test(url)){status.textContent="La condivisione richiede il link pubblico.";return;}try{if(navigator.share)await navigator.share({title:"Gabriele Corso — progetti e AI",url});else{await navigator.clipboard.writeText(url);status.textContent="Link del biglietto copiato.";}}catch(e){if(e.name!=="AbortError")status.textContent="Puoi copiare il link dalla barra degli indirizzi.";}};
+const escape=v=>String(v).replace(/\\/g,"\\\\").replace(/\n/g,"\\n").replace(/[,;]/g,"\\$&");
+document.getElementById("save-contact").onclick=()=>{const lines=["BEGIN:VCARD","VERSION:3.0","N:Corso;Gabriele;;;","FN:Gabriele Corso","TITLE:Consulenza e sviluppo AI"];if(c.email)lines.push("EMAIL:"+escape(c.email));if(c.whatsapp)lines.push("TEL;TYPE=CELL:+"+String(c.whatsapp).replace(/\D/g,""));if(current)lines.push("URL:"+current);lines.push("END:VCARD");save(new Blob([lines.join("\r\n")+"\r\n"],{type:"text/vcard;charset=utf-8"}),"gabriele-corso.vcf");};
+if(input.value)generate();
+})();
