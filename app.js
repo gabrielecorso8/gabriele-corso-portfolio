@@ -35,7 +35,8 @@ const waButton=document.getElementById("compose-wa");if(waButton)waButton.disabl
 
 const quickQr=document.getElementById("quick-qr-dialog"),quickQrButton=document.getElementById("quick-qr"),quickQrBox=document.getElementById("quick-qr-box");
 function closeQuickQr(){if(quickQr?.open)quickQr.close();}
-function openQuickQr(e){e?.preventDefault();if(!quickQr||!quickQrBox||typeof qrcode!=="function")return;const url=config.publicUrl||new URL("./",location.href).href;const qr=qrcode(0,"M");qr.addData(url);qr.make();quickQrBox.innerHTML=qr.createSvgTag({cellSize:8,margin:28,scalable:true});quickQrBox.querySelector("svg")?.setAttribute("aria-label","Codice QR per aprire il portfolio di Gabriele Corso");quickQr.showModal();}
+function renderBrandedQr(box,svg,alt){box.innerHTML=svg;box.querySelector("svg")?.setAttribute("aria-label",alt);const badge=document.createElement("span");badge.className="qr-brand-badge";const image=document.createElement("img");image.src="assets/portfolio-icon.png";image.alt="";badge.append(image);box.append(badge);}
+function openQuickQr(e){e?.preventDefault();if(!quickQr||!quickQrBox||typeof qrcode!=="function")return;const url=config.publicUrl||new URL("./",location.href).href;const qr=qrcode(0,"M");qr.addData(url);qr.make();renderBrandedQr(quickQrBox,qr.createSvgTag({cellSize:8,margin:28,scalable:true}),"Codice QR personalizzato per aprire il portfolio di Gabriele Corso");quickQr.showModal();}
 quickQrButton?.addEventListener("click",openQuickQr);document.getElementById("close-quick-qr")?.addEventListener("click",closeQuickQr);quickQr?.addEventListener("click",e=>{if(e.target===quickQr)closeQuickQr();});
 
 const canvas=document.getElementById("field");if(!canvas)return;const ctx=canvas.getContext("2d");const orbitalIcons=[...document.querySelectorAll(".satellite")];let w=0,h=0,time=0,last=0,visible=true;
