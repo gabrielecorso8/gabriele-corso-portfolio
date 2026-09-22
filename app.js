@@ -26,9 +26,10 @@ addEventListener("hashchange",route);route();}
 function revealSection(id){const section=document.getElementById(id),disclosure=section?.querySelector(":scope > details");if(disclosure)disclosure.open=true;}
 document.querySelectorAll('a[href="#progetti"],a[href="#h-ai-saggio"]').forEach(a=>a.addEventListener("click",()=>revealSection(a.hash.slice(1))));revealSection(location.hash.slice(1));
 
-const email=String(config.email||"").trim(),whatsapp=String(config.whatsapp||"").replace(/\D/g,"");
+const email=String(config.email||"").trim(),whatsapp=String(config.whatsapp||"").replace(/\D/g,""),phone=String(config.phone||"").replace(/\D/g,"");
 document.querySelectorAll(".contact-email").forEach(button=>{if(!email){button.disabled=true;button.setAttribute("aria-label","Email in aggiornamento");}});
 document.querySelectorAll(".contact-wa").forEach(a=>{if(whatsapp){a.href="https://wa.me/"+whatsapp;a.target="_blank";a.rel="noopener";}else{a.setAttribute("aria-disabled","true");a.removeAttribute("href");a.textContent="WhatsApp · in aggiornamento";}});
+document.querySelectorAll(".contact-phone").forEach(a=>{if(phone){a.href="tel:+39"+phone;}else{a.setAttribute("aria-disabled","true");a.removeAttribute("href");a.textContent="Chiama · in aggiornamento";}});
 const status=document.getElementById("contact-status");if(status&&!email&&!whatsapp)status.textContent="Recapiti in aggiornamento. Il profilo GitHub è disponibile in fondo alla pagina.";
 function message(){const identity=document.getElementById("identity")?.value.trim(),sector=document.getElementById("sector")?.value.trim(),solution=document.getElementById("solution")?.value.trim(),problem=document.getElementById("problem")?.value.trim();const details=[identity&&"Profilo: "+identity,sector&&"Settore: "+sector,solution&&"Soluzione cercata: "+solution,problem&&"Dettagli: "+problem].filter(Boolean);return "Buongiorno Gabriele,\n\n"+(details.join("\n\n")||"Vorrei confrontarmi su una possibile collaborazione.")+"\n\nMessaggio dal portfolio.";}
 const emailProvider=document.getElementById("email-provider-dialog"),formStatus=document.getElementById("form-status");let pendingEmailBody="";
